@@ -127,6 +127,21 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'daily_houses_info' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/houses/info/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
+        'daily_houses_error' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/houses/error/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];

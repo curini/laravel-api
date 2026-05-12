@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Log;
 
 class HouseClient
 {
+    private $typesLogs = ['info', 'error'];
+
+    private $channels = [
+        'info' => 'daily_houses_info',
+        'error' => 'daily_houses_error'
+    ];
     /**
      * Create a new class instance.
      */
@@ -22,7 +28,7 @@ class HouseClient
             $response = Http::acceptJson()->get($url, $query);
             $this->trace('info', $response->transferStats->getEffectiveUri());
             if ($response->failed()) {
-                $this->trace('error', HouseErrorEnum::RESPONSE->value);
+                $this->trace('error', HouseErrorEnum::RESPONSE->value, $response->body());
                 throw new HouseException(HouseErrorEnum::RESPONSE->value);
             }
             return $response->json();
@@ -34,10 +40,13 @@ class HouseClient
 
     public function trace(string $type, string $message, ?string $debug = null): void
     {
-        Log::$type(print_r([
-            'date' => date('d M Y H:i:s'),
-            'message' => $message,
-            'debug' => $debug
-        ], true));
+        if (in_array($type, $this->typesLogs) && !empty($this->channels[$type])) {
+            Log::channel($this->channels[$type])
+                ->$type(print_r([
+                    'date' => date('d M Y H:i:s'),
+                    'message' => $message,
+                    'debug' => $debug
+                ], true));
+        }
     }
 }
