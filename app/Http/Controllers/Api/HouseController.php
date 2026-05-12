@@ -10,6 +10,8 @@ class HouseController extends Controller
 {
     public function properties(PropertyRequest $request)
     {
-        return (new PropertyService())->call($request->toArray());
+        $propertyService = new PropertyService();
+        $request->validated();
+        return $propertyService->call($request->toArray());
     }
 }

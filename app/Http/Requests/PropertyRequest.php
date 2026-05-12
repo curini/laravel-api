@@ -5,7 +5,9 @@ namespace App\Http\Requests;
 use App\Enums\LocaleEnum;
 use App\Enums\StatesEnum;
 use App\Enums\OtherInfoEnum;
+use App\Exceptions\HouseException;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Override;
@@ -28,9 +30,9 @@ class PropertyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'country' => [Rule::enum(LocaleEnum::class)],
-            'state' =>  [Rule::enum(StatesEnum::class)],
-            'other_info' => [Rule::enum(OtherInfoEnum::class)]
+            'country' => ['required', Rule::enum(LocaleEnum::class)],
+            'state' =>  ['required', Rule::enum(StatesEnum::class)],
+            'other_info' => ['nullable', Rule::enum(OtherInfoEnum::class)]
         ];
     }
 
@@ -50,5 +52,21 @@ class PropertyRequest extends FormRequest
         return [
             'query' => $query
         ];
+    }
+
+    #[Override]
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HouseException($validator->errors());
+    }
+
+    #[Override]
+    protected function prepareForValidation()
+    {
+        return $this->merge([
+            'country' => $this->route('country'),
+            'state' => $this->route('state'),
+            'other_info' => $this->route('other_info')
+        ]);
     }
 }
