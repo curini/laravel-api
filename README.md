@@ -26,3 +26,11 @@ Retourne une liste d’annonces en fonction des paramètres fournis.
 - `state` — ex: vente / location
 - `other_info` _(optionnel)_ — filtre supplémentaire ex: maison
 - Les données retournées s’appuient sur la configuration définie dans **`config/house.php`**.
+
+### **GET `/formfile/create`**
+
+Permet de déposer un fichier.
+
+### **POST `/formfile/store`**
+
+Enregistre le fichier déposé sur le serveur.
