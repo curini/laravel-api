@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    @include('components.nav')
     @yield('content')
 </body>
 
