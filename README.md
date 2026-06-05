@@ -7,6 +7,29 @@
 | **PHP**                 | 8.3     |
 | **Laravel Framework**   | 13.7    |
 | **spatie/laravel-data** | 4.23    |
+| **laravel/sail** (dev)  | 1.62    |
+
+---
+
+## Docker en environement de test
+
+Création du fichier `compose.yaml` par défaut
+
+```
+php artisan sail:install
+```
+
+Lancement de l'image
+
+```
+./vendor/bin/sail up
+```
+
+ou sous windows
+
+```
+bash ./vendor/laravel/sail/bin/sail up
+```
 
 ---
 
